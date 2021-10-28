@@ -1,0 +1,83 @@
+CREATE TABLE people(id int, name varchar(20), email varchar(100));
+
+//複雑な検索
+create table products(id int, name varchar(20), price int, category varchar(20));
+
+insert into products (id,name,price,category) values(1,'onigiri',150,'food');
+
+insert into products (id,name,price,category) values(2,'water',80,'beverage');
+insert into products (id,name,price,category) values(3,'chicken',170,'food');
+insert into products (id,name,price,category) values(4,'pen',120,'other');
+insert into products (id,name,price,category) values(5,'cola',140,'beverage');
+insert into products (id,name,price,category) values(6,'comic',400,'other');
+
+
+select sum(price),avg(price) from products
+where category = 'food';
+
+select * from products
+order by price desc;
+
+select * from products
+where name like 'c%'
+and price between 100 and 200;
+
+select category, count(*) as 合計 from products
+group by category;
+
+create table movie(
+  id int auto_increment primary key,
+  name varchar(100),
+  price int default 1000,
+  rating varchar(5) check(rating = 'G' or rating = 'R15' or rating = 'R18')
+  );
+
+
+create table users(
+  id int auto_increment primary key,
+  name varchar(100)
+ );
+
+insert into users(id,name) values(1,'Taro');
+insert into users(id,name) values(2,'Jiro');
+insert into users(id,name) values(3,'Hanako');
+insert into users(id,name) values(4,'Airi');
+insert into users(id,name) values(5,'Kento');
+
+
+
+create table tests(
+  id int auto_increment primary key,
+  user_id int,
+  score int,
+  date date
+ );
+
+insert into tests(id,user_id,score,date) values(1,1,60,'2019-02-04');
+
+insert into tests(user_id,score,date) values(1,50,'2019-02-04');
+
+insert into tests(user_id,score,date) values(1,80,'2020-01-04');
+insert into tests(user_id,score,date) values(2,75,'2020-02-04');
+insert into tests(user_id,score,date) values(4,30,'2020-03-16');
+insert into tests(user_id,score,date) values(2,45,'2020-04-15');
+insert into tests(user_id,score,date) values(5,90,'2020-04-22');
+insert into tests(user_id,score,date) values(5,100,'2020-04-29');
+
+
+select users.id, users.name, tests.score, tests.date from users
+
+join tests on 
+
+users.id = tests.user_id 
+
+where name = 'Taro' order by score;
+
+
+select users.id, users.name, avg(tests.score) as 平均値 from users join tests on users.id = tests.user_id
+
+where tests.date > '2020-01-11'
+
+group by users.name
+
+order by 平均値;
